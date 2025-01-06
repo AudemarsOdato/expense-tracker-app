@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Finance Tracker</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="icon.png">
+</head>
+<body>
+        
+        <main class="container">
+                <div class="balance-container">
+                        <h1>Php 00.0</h1>
+                        <p>Current Balance</p>
+                </div>
+
+                <div class="form-container">
+                        <form>
+                                <input type="number" name="amountInput" placeholder="Amount">
+                                <select name="catogories" id="categoryOptions">
+                                        <option value="food">Food</option>
+                                        <option value="transportation">Transportation</option>
+                                        <option value="academics">Academics</option>
+                                        <option value="income">Received Money</option>
+                                        <option value="others">Others</option>
+                                </select>
+                                <input type="button" value="Add Income" id="income-button">
+                                <input type="button" value="Add Expense" id="expense-button">
+                        </form>
+                </div>
+
+                <div class="transaction-log">
+                        <h4>Transaction Log</h4>
+                        <ul id="log-list">
+                                <!-- history -->
+                                <li class="expense">
+                                        <p><b>EXPENSE: </b>Amount</p>
+                                        <p>Date</p>
+                                        <p>Food</p>
+                                </li>
+
+                                <li class="expense">
+                                        <p><b>EXPENSE: </b>Amount</p>
+                                        <p>Date</p>
+                                        <p>Food</p>
+                                </li>
+
+                                <li class="income">
+                                        <p><b>INCOME: </b>Php 1200</p>
+                                        <p>1/6/25 6pm</p>
+                                        <p>Received money</p>
+                                </li>
+                        </ul>
+                </div>
+        </main>
+
+</body>
+</html>

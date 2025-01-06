@@ -1,0 +1,17 @@
+Specification and Requirements
+- Expense tracker app
+- Be able to track current budget by inputing earnings and expenses and updating the current balance
+        - Input earnings amount and add them to the balance
+        - Input expenses, its amount and category, and deduct it from the balance
+        - Inputs should inlcude the time and date it is added
+        - Display the input in a list like record history
+        - Display the current balance 
+        - Save the datas in local storage
+- To make a usefull app that I can personally use to improve my financial management
+
+Research and Design
+- Design the Ui
+
+Day 1 - Specification and Requirements
+Day 2 - Ui Design
+Day 3 - Research and algorithm design

@@ -17,7 +17,7 @@ body {
 }
 
 .balance-container h1 {
-        font-size: 4em;
+        font-size: 3em;
         margin: 0;
 }
 
@@ -34,7 +34,7 @@ input[type = button], [type = number], select {
         border-radius: 4px;
 }
 
-input[type = number], select {
+input[type = number], select { /* Improve select design and appearnce */
         padding: 8px;
 }
 
@@ -43,24 +43,25 @@ input[type = button] {
 }
 
 #income-button {
-        background-color: rgb(0, 190, 0);
+        background-color: rgb(0, 200, 0);
         color: rgb(255, 255, 255);
         border: none;
         font-weight: bolder;
 }
 
 #income-button:active {
-        background-color: rgb(0, 200, 0);
+        background-color: rgb(0, 255, 0);
 }
 
 #expense-button {
         background-color: rgb(210, 0, 0);
         color: rgb(255, 255, 255);
+        border: none;
         font-weight: bolder;
 }
 
 #expense-button:active {
-        background-color: rgb(230, 0, 0);
+        background-color: rgb(255, 0, 0);
 }
 
 .transaction-log h4 {

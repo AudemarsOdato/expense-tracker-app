@@ -5,13 +5,49 @@ Specification and Requirements
         - Input expenses, its amount and category, and deduct it from the balance
         - Inputs should inlcude the time and date it is added
         - Display the input in a list like record history
-        - Display the current balance 
+        - Display the current balance
         - Save the datas in local storage
 - To make a usefull app that I can personally use to improve my financial management
 
-Research and Design
-- Design the Ui
+Day 1 Jan 5 - Specification and Requirements
+Day 2 Jan 6 - Ui Design
+Day 3 Jan 7 - Research and algorithm design
+Day 4 Jan 8 - Pseudocode and flowchart
+Day 5 Jan 9 - Coding adding to the list
+Day 6 Jan 10 - Coding error handling
+Day 7 Jan 11 - Coding local storage
 
-Day 1 - Specification and Requirements
-Day 2 - Ui Design
-Day 3 - Research and algorithm design
+Research
+- add event listener for onclick of the buttons
+        element.addEventListner("click/submit")
+        I ended up using the .onlick function that I learned form my previous to-do app project that uses the .onsubmit function instead of event listners
+        This uses less syntax and more readable
+- select element input for cetegory input
+        works the same as other input, by getting the element and its .value
+- Getting the current time and date
+- inner html for displaying the information inside the li element adding the li element to the ul
+- working around local storage, getting previously saved datas and saving new datas
+
+Algorithm
+- Inputing income
+- Inputing expenses
+- Getting the time, date, and category of the transaction
+- Recording transactions into transaction log list
+- Tracking the current balance by adding income input and deducting expense inputs
+- Saving list of transactions and the current balance into the local storage
+- On load, get saved transaction logs and saved current balance
+and display them
+- Add error handling
+
+
+Review
+- Current balance and transaction logs values may not be in sync, 
+        due to transaction logs being deleted without the function of updating the current balance, like adding or deducting its vales when removed, 
+        another reason is that the current balance are only updated when the transaction is recorded and is not updated when retrieving saved trannsaction logs,
+        meaning that the current balance is saved as a seperate value and the amount of saved transactions are not calculated, added or deducted to get the current balance
+- It lacks the delete transaction button to delete mistaken inputs like wrong amount
+        the multiple checks and error handling may make up for it by reminding the user to check the inputed infos before adding transaction
+- We could also replace the add expense/income button with add transaction button and use category to determine whether it is an income or expense
+        this means we will need to re-write the code for the new approach or logic but a more simple design of the ui
+- What if the user accidentally input 0 in the amount?
+- The app does not display cents values

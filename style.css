@@ -42,25 +42,25 @@ input[type = button] {
         padding: 12px;
 }
 
-#income-button {
+#addTransaction-button {
         background-color: rgb(0, 200, 0);
         color: rgb(255, 255, 255);
         border: none;
         font-weight: bolder;
 }
 
-#income-button:active {
+#addTransaction-button:active {
         background-color: rgb(0, 255, 0);
 }
 
-#expense-button {
+#undoTransaction-button {
         background-color: rgb(210, 0, 0);
         color: rgb(255, 255, 255);
         border: none;
         font-weight: bolder;
 }
 
-#expense-button:active {
+#undoTransaction-button:active {
         background-color: rgb(255, 0, 0);
 }
 

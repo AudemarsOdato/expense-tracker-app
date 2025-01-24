@@ -1,7 +1,7 @@
 # Documentation
 
 ## Cash Tracker app
-Helps you track your expenses and your current cash that you have.
+Helps you track your expenses and your available cash.
 
 ## Version 2
 ### Changes:

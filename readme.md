@@ -7,9 +7,7 @@ Helps you track your expenses and your current cash that you have.
 - Replaced add buttons for income and expense with add and undo transaction
 
 ### Algorithm
-1. aiufe
-        1. ifae
-
-2. ef
-3. sef
+1. Input amount
+    1. iaugwiwu
+2. Determine category
                 

@@ -19,5 +19,3 @@ Helps you track your expenses and your available cash.
 3. add the transaction to the transaction log
 4. save the list of transaction log to the local storage
 5. clear the amount value and reset the category
-
-// https://stackoverflow.com/questions/23108643/javascript-compare-variable-against-array-of-values

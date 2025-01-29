@@ -42,6 +42,53 @@ addTransactionButton.onclick = () => {
 
 };
 
+// get the amount of the first list to be remove
+// determine if income or expense
+// if income then subract the amount
+// if expense then add the ammount
+// remove from the list
+// save the list to local storage
+undoTransactionButton.onclick = () => {
+
+        const transactionType = determineTransactionType(categoryInput.value);
+
+        removePreviousTrans(transactionType);
+
+        
+        saveTransactionLogs();
+}
+
+function removePreviousTrans(transactionType) {
+
+        let amount = getTransactionAmount(transactionLog.firstElementChild);
+
+        if (transactionType == "income") {
+
+                availableCash -= amount;
+                updateAvailableCash(availableCash);
+
+        }
+        else if (transactionType == "expense") {
+
+                availableCash += amount;
+                updateAvailableCash(availableCash);
+                
+        }
+
+        transactionLog.removeChild(transactionLog.firstElementChild);
+}
+
+function getTransactionAmount(transaction) {
+
+        return extractIntFrom(transaction.textContent);
+}
+
+function extractIntFrom(text) {
+        const regEx = /\d+/;
+        let extractedValue = text.match(regEx);
+        return parseInt(extractedValue);
+  }
+
 function addTransaction(transactionType) {
 
         if (transactionType == "income") {

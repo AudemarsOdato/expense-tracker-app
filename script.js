@@ -1,85 +1,144 @@
-const addIncomeButton  = document.getElementById("income-button");
-const addExpenseButton = document.getElementById("expense-button");
+const availableCash_el = document.getElementById("available-cash");
+const amountInput = document.getElementById("amountInput");
 const categoryInput = document.getElementById("categoryOptions");
-const amountInput   = document.getElementById("amountInput");
-const currentBalance_el = document.getElementById("current-balance");
+const addTransactionButton = document.getElementById("addTransaction-button");
+const undoTransactionButton = document.getElementById("undoTransaction-button");
 const transactionLog = document.getElementById("log-list");
 
-var currentBalance = 0;
+var availableCash = 0;
 
-onload();
-function onload() 
-{
-        const hasSavedTransactions = !(localStorage.getItem("transactions") === null);
-        if (hasSavedTransactions)
-        {
-                retrievSavedTransactions();
-                retrievSavedCurrentBalance();
-        }
+// On Load
+const hasSavedTransactions = !(localStorage.getItem("transactions") === null);
+if (hasSavedTransactions) {
+        retrievSavedTransactions();
+        retrievSavedCash();
 }
 
-// display the transaction to the list
-// Update the current balance
-// Save to the local storage
-addIncomeButton.onclick = () => {
+const expenses = ["Food", "Transportation", "Academics", "Savings", "Grocery"];
+const incomes  = ["Received money", "Withdrew money"];
 
-        if (amountInput.value && (categoryInput.value == "Received money")) {
+addTransactionButton.onclick = () => {
+        const transactionType = determineTransactionType(categoryInput.value);
 
-                addIncome(amountInput.value, categoryInput.value);
-                let updatedCurrentBalance = currentBalance + parseInt(amountInput.value); // the input becomes a string when getting added to the current balance
-                currentBalance = updatedCurrentBalance;
-                updateCurrentBalance(updatedCurrentBalance);
+        if (amountInput.value) {
+                addTransaction(transactionType);
                 saveTransactionLogs();
-
                 amountInput.value = "";
-
-        }
-        else if ((categoryInput.value !== "Received money") && amountInput.value) {
-                alert("Please check category.");
         }
         else {
                 alert("Please input an amount.");
         }
 };
 
-addExpenseButton.onclick = () => {
+undoTransactionButton.onclick = () => {
+        const transactionType = determineTransactionType(transactionLog.firstElementChild);
 
-        if (amountInput.value && (categoryInput.value !== "Received money")) {
+        removePreviousTrans(transactionType);
+        saveTransactionLogs();
+}
 
-                addExpense(amountInput.value, categoryInput.value);
-                let updatedCurrentBalance = currentBalance - parseInt(amountInput.value);
-                currentBalance = updatedCurrentBalance;
-                updateCurrentBalance(updatedCurrentBalance);
-                saveTransactionLogs();
+function removePreviousTrans(transactionType) {
+        let amount = getTransactionAmount(transactionLog.firstElementChild);
 
-                amountInput.value = "";
-
+        if (transactionType == "income") {
+                availableCash -= amount;
+                updateAvailableCash(availableCash);
         }
-        else if (amountInput.value && (categoryInput.value = "Received money")) {
-                alert("PLease check category.");
+        else if (transactionType == "expense") {
+                availableCash += amount;
+                updateAvailableCash(availableCash);
+        }
+
+        transactionLog.removeChild(transactionLog.firstElementChild);
+}
+
+function getTransactionAmount(transaction) {
+        return extractIntFrom(transaction.textContent);
+}
+
+function extractIntFrom(text) {
+        const regEx = /\d+/;
+
+        let extractedValue = text.match(regEx);
+
+        return parseInt(extractedValue);
+}
+
+function addTransaction(transactionType) {
+        if (transactionType == "income") {
+                displayTransaction(amountInput.value, categoryInput.value, "income");
+
+                availableCash = availableCash + parseInt(amountInput.value);
+                updateAvailableCash(availableCash);
+        }
+        else if (transactionType == "expense") {
+                displayTransaction(amountInput.value, categoryInput.value, "expense");
+
+                availableCash = availableCash - parseInt(amountInput.value);
+                updateAvailableCash(availableCash);
+        }
+}
+
+function saveTransactionLogs() {
+        const TRANSACTION_LOGS  = [];
+
+        let transactions = document.querySelectorAll("li");
+        transactions.forEach(transaction => {
+                TRANSACTION_LOGS.unshift(transaction.innerHTML);
+        });
+
+        localStorage.setItem("transactions", JSON.stringify(TRANSACTION_LOGS));
+}
+
+function retrievSavedTransactions() {
+        const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
+        savedTransactions.forEach(displaySavedTransaction);
+}
+
+function retrievSavedCash() {
+        availableCash = JSON.parse(localStorage.getItem("savedCashBalance"));
+        updateAvailableCash(availableCash);
+}
+
+function displaySavedTransaction(transaction) {
+        const li = document.createElement("li");
+        li.innerHTML = transaction;
+        li.classList.add(identifyClass(transaction));
+        transactionLog.prepend(li);
+}
+
+function identifyClass(transaction) {
+        let transactionClass = transaction.slice(6, 13);
+
+        if (transactionClass == "INCOME:") {
+                return "income";
+        }
+        return "expense";
+}
+
+function updateAvailableCash(updatedAvailableCash) {
+        availableCash_el.textContent = `Php ${updatedAvailableCash}.00`;
+
+        if ((updatedAvailableCash == 0) || (updatedAvailableCash === null)) {
+                availableCash_el.textContent = "Php 0.00"
+        }
+
+        localStorage.setItem("savedCashBalance", JSON.stringify(updatedAvailableCash));
+}
+
+function determineTransactionType(category) {
+        if (expenses.includes(category)) {
+                return "expense";
+        }
+        else if (incomes.includes(category)) {
+                return "income";
         }
         else {
-                alert("Please enter an amount.");
+                return "Invalid input!";
         }
-};
-
-function addIncome(amount, category) 
-{
-        displayTransaction(amount, category, "income");
 }
 
-function addExpense(amount, category) 
-{
-        displayTransaction(amount, category, "expense");
-}
-
-// Create new li element
-// Get the current time and date
-// change the inner html
-// apply the class name to it from the css to identify whether income or expense
-// append it to the list
-function displayTransaction(amount, category, elementClass) 
-{
+function displayTransaction(amount, category, elementClass) {
         let currentTimeAndDate = getTimeAndDate();
 
         const li = document.createElement("li");
@@ -90,85 +149,27 @@ function displayTransaction(amount, category, elementClass)
         transactionLog.prepend(li);
 }
 
-function updateCurrentBalance(updatedCurrentBalance) 
-{
-        currentBalance_el.textContent = `Php ${updatedCurrentBalance}.00`;
-
-        if ((updatedCurrentBalance == 0) || (updatedCurrentBalance === null)) {
-                currentBalance_el.textContent = "Php 0.00"
-        }
-
-        localStorage.setItem("savedCurrentBalance", JSON.stringify(updatedCurrentBalance));
-}
-
-// get all li elements
-// add each to an array
-// save that array to the
-function saveTransactionLogs()
-{
-        const TRANSACTION_LOGS  = [];
-        let transactions = document.querySelectorAll("li");
-        transactions.forEach(transaction => {
-                TRANSACTION_LOGS.unshift(transaction.innerHTML);
-        });
-        localStorage.setItem("transactions", JSON.stringify(TRANSACTION_LOGS));
-}
-
-function retrievSavedTransactions() 
-{
-        const savedTransactions = JSON.parse(localStorage.getItem("transactions"));
-        savedTransactions.forEach(displaySavedTransaction);
-}
-
-function displaySavedTransaction(transaction) 
-{
-        const li = document.createElement("li");
-        li.innerHTML = transaction;
-        li.classList.add(identifyCategory(transaction));
-        transactionLog.prepend(li);
-}
-
-function identifyCategory(transaction)
-{
-        transactionCategory = transaction.slice(6, 13);
-        console.log(transactionCategory);
-        if (transactionCategory == "INCOME:") {
-                return "income";
-        }
-        return "expense";
-}
-
-function retrievSavedCurrentBalance()
-{
-        const savedCurrentBalance = JSON.parse(localStorage.getItem("savedCurrentBalance"));
-        currentBalance = savedCurrentBalance;
-        updateCurrentBalance(currentBalance);
-}
-
-function displaySavedCurrentBalance(savedCurrentBalance)
-{
-        currentBalance_el.textContent = `Php ${savedCurrentBalance}`;
-}
-
-// utils functions
-function getTimeAndDate()  
-{
+function getTimeAndDate()  {
         let date = new Date();
         let month = date.getMonth() + 1; // the getMonth function returns value of 0 - 11
         let day = date.getDate();
         let year = date.getFullYear() - 2000; // To get the year in 2 digits without splicing
-
         let hour = date.getHours();
         let minute = date.getMinutes();
 
         if (minute < 10) {
-                minute = `0${minute}`
+                minute = `0${minute}`;
         }
 
-        let past12 = hour > 12
+        let meridiemTime;
+        let past12 = hour > 12;
         if (past12) {
-                hour -= 12
-                return `${month}/${day}/${year} ${hour}:${minute}pm`
+                hour -= 12;
+                meridiemTime = "pm";
         }
-        return  `${month}/${day}/${year} ${hour}:${minute}am`;
+        else {
+                meridiemTime = "am";
+        }
+
+        return  `${month}/${day}/${year} ${hour}:${minute}${meridiemTime}`;
 }

@@ -31,7 +31,8 @@ addTransactionButton.onclick = () => {
 };
 
 undoTransactionButton.onclick = () => {
-        const transactionType = determineTransactionType(transactionLog.firstElementChild);
+        const transactionType = identifyClass(transactionLog.firstElementChild.textContent);
+        console.log(transactionType);
 
         removePreviousTrans(transactionType);
         saveTransactionLogs();
@@ -107,15 +108,6 @@ function displaySavedTransaction(transaction) {
         transactionLog.prepend(li);
 }
 
-function identifyClass(transaction) {
-        let transactionClass = transaction.slice(6, 13);
-
-        if (transactionClass == "INCOME:") {
-                return "income";
-        }
-        return "expense";
-}
-
 function updateAvailableCash(updatedAvailableCash) {
         availableCash_el.textContent = `Php ${updatedAvailableCash}.00`;
 
@@ -147,6 +139,16 @@ function displayTransaction(amount, category, elementClass) {
                         <p>${currentTimeAndDate}</p>
                         <p>${category}</p>`;
         transactionLog.prepend(li);
+}
+
+function identifyClass(transaction) {
+        let transactionClass = transaction.slice(0, 7);
+        console.log(transactionClass);
+
+        if (transactionClass == "INCOME:") {
+                return "income";
+        }
+        return "expense";
 }
 
 function getTimeAndDate()  {

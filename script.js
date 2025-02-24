@@ -136,8 +136,8 @@ function displayTransaction(amount, category, elementClass) {
         const li = document.createElement("li");
         li.classList.add(elementClass);
         li.innerHTML = `<p><b>${elementClass.toUpperCase()}: </b>${amount}</p>
-                        <p>${currentTimeAndDate}</p>
-                        <p>${category}</p>`;
+                        <p>${category}</p>
+                        <p>${currentTimeAndDate}</p>`;
         transactionLog.prepend(li);
 }
 
